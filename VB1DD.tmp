@@ -1,0 +1,208 @@
+VERSION 5.00
+Begin VB.Form Form1 
+   Caption         =   "Form1"
+   ClientHeight    =   3195
+   ClientLeft      =   60
+   ClientTop       =   345
+   ClientWidth     =   4680
+   LinkTopic       =   "Form1"
+   ScaleHeight     =   213
+   ScaleMode       =   3  'Pixel
+   ScaleWidth      =   312
+   StartUpPosition =   3  'Windows Default
+   Begin VB.PictureBox Picture3 
+      Height          =   255
+      Left            =   4440
+      Picture         =   "Form1.frx":0000
+      ScaleHeight     =   195
+      ScaleWidth      =   195
+      TabIndex        =   9
+      Top             =   3000
+      Width           =   255
+   End
+   Begin VB.PictureBox Picture2 
+      Height          =   375
+      Left            =   4320
+      Picture         =   "Form1.frx":137E
+      ScaleHeight     =   315
+      ScaleWidth      =   315
+      TabIndex        =   8
+      Top             =   1440
+      Width           =   375
+   End
+   Begin VB.PictureBox Picture1 
+      Height          =   1215
+      Left            =   1800
+      Picture         =   "Form1.frx":26FC
+      ScaleHeight     =   77
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   109
+      TabIndex        =   7
+      Top             =   0
+      Width           =   1695
+   End
+   Begin VB.TextBox Text3 
+      Height          =   285
+      Left            =   4200
+      TabIndex        =   6
+      Text            =   "0"
+      Top             =   840
+      Visible         =   0   'False
+      Width           =   255
+   End
+   Begin VB.TextBox Text2 
+      Height          =   285
+      Left            =   120
+      MaxLength       =   1
+      TabIndex        =   4
+      Text            =   "1"
+      Top             =   240
+      Width           =   375
+   End
+   Begin VB.CommandButton Command2 
+      Caption         =   "START"
+      Height          =   735
+      Left            =   240
+      TabIndex        =   2
+      Top             =   960
+      Width           =   735
+   End
+   Begin VB.Timer Timer1 
+      Enabled         =   0   'False
+      Interval        =   1
+      Left            =   4080
+      Top             =   0
+   End
+   Begin VB.TextBox Text1 
+      Height          =   285
+      Left            =   2520
+      TabIndex        =   0
+      Top             =   1560
+      Width           =   255
+   End
+   Begin VB.Label Label3 
+      Caption         =   "1-4"
+      Height          =   255
+      Left            =   600
+      TabIndex        =   5
+      Top             =   360
+      Width           =   375
+   End
+   Begin VB.Label Label2 
+      Caption         =   "Ski77 73vl3"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   3
+      Top             =   0
+      Width           =   975
+   End
+   Begin VB.Line Line2 
+      BorderColor     =   &H000000FF&
+      BorderWidth     =   20
+      X1              =   8
+      X2              =   296
+      Y1              =   168
+      Y2              =   168
+   End
+   Begin VB.Line Line1 
+      BorderColor     =   &H80000001&
+      BorderWidth     =   20
+      X1              =   8
+      X2              =   296
+      Y1              =   136
+      Y2              =   136
+   End
+   Begin VB.Label Label1 
+      Caption         =   "w"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   2520
+      TabIndex        =   1
+      Top             =   1200
+      Width           =   255
+   End
+End
+Attribute VB_Name = "Form1"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Private Sub Command1_Click()
+If Label1.Caption = "w" Then Label1.Caption = "x"
+End Sub
+
+Private Sub Command2_Click()
+Line1.X2 = 4440
+Line2.X2 = 4440
+Text3.Text = 0
+Text1.SetFocus
+Timer1.Enabled = True
+End Sub
+
+Private Sub Timer1_Timer()
+If Label1.Caption = Text1.Text Then
+mRandom = Int(Rnd * 3) + 1  'pick number between 1 and 3
+
+If mRandom = 1 Then 'one == w two == a, three == d
+Label1.Caption = "w"
+Picture1.Picture = "w.bmp"
+Text3.Text = Text3.Text + 1
+GoTo endd
+End If
+
+If mRandom = 2 Then
+Label1.Caption = "a"
+Picture1.Picture = "a.bmp"
+Text3.Text = Text3.Text + 1
+GoTo endd
+End If
+
+If mRandom = 3 Then
+Label1.Caption = "d"
+Picture1.Picture = "d.bmp"
+Text3.Text = Text3.Text + 1
+GoTo endd
+End If
+
+
+'If Label1.Caption = "d" Then
+'Label1.Caption = "w"
+'Line1.X2 = Line1.X2 - 800 / Text2.Text
+'GoTo endd
+'End If
+
+
+ElseIf Text1.Text = "" Then GoTo endd  'if nothings there then no pointz and no penalty
+Else
+Line2.X2 = Line2.X2 - 300   'LOL if they hit wrong key, the red line goes down faster
+End If
+
+endd:
+If Text3.Text >= 3 Then
+Text3.Text = 0
+Line1.X2 = Line1.X2 - 800 / Text2.Text
+End If
+
+
+Text1.Text = ""  'empty the text field
+Text1.SetFocus   'in case they click someplace they shouldnt, return focus to txt box
+If Line1.X2 <= 0 Then  'line 1 is the blue line, when it's zero you win
+MsgBox "j00 W1N!!!!11!1!"
+Timer1.Enabled = False
+End If
+
+Line2.X2 = Line2.X2 - 7  'constantly decrease red line
+If Line2.X2 <= 0 Then   'if red line's leangth is 0 the game ends and you looz
+MsgBox "you looze!@#$"
+Timer1.Enabled = False   'ahh, remember to kill the timer too
+End If
+End Sub
+
